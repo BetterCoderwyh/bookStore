@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="product-gateway" parallel="false" thread-count="2">
+    <test verbose="2" preserve-order="true" name="Spu">  
+	        <classes>
+	          <class name="com.book.UserMapperTest">
+	                <methods>
+	                <include name="testGetByUserName"></include>
+	                <include name="testInsertUser"></include>
+	                <include name="testUpdateUser"></include>
+	                <include name="testFindAll"></include>
+	                <exclude name="testDeleteByUserName"></exclude>
+	                </methods>
+	          </class> 
+	          <class name="com.book.mapper.BookStyleMapperTest">
+	                <methods>
+	                <include name="testInsertBookStyle"></include>
+	                <include name="testUpdateBookStyle"></include>
+	                <include name="testFindAll"></include>
+	                <exclude name="testDeleteByBSId"></exclude>
+	                </methods>
+	          </class> 
+             <class name="com.book.mapper.BookMapperTest"> 
+                <methods>
+                <include name="testInsertBook"></include>
+                <include name="testUpdateBook"></include>
+                <include name="testFindAll"></include>
+                <include name="testGetById"></include>
+                <include name="testGetRows"></include>
+                <exclude name="testDeleteByBookId"></exclude>
+                </methods>
+             </class>
+        </classes>
+    </test> <!-- Test -->
+</suite> <!-- Suite -->

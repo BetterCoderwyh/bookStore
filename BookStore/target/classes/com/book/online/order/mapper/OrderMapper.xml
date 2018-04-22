@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.book.online.order.mapper.OrderMapper">
+   <resultMap type="order" id="myOrder">
+       <id property="orderId" column="orderId"/>
+       <result property="orderNum" column="orderNum"/>
+       <result property="createDate" column="createDate"/>
+       <result property="orderStatus" column="orderStatus"/>
+       <association property="user" javaType="user">
+       <id property="userId" column="userId"/>
+       </association>
+       <association property="address" javaType="address">
+       <id property="addressId" column="addressId"/>
+       <result property="reciver" column="reciver"/>
+       <result property="tel" column="tel"/>
+       <result property="detailAddress" column="detailAddress"/>
+       </association>
+       <collection property="items" ofType="orderitem">
+       <id property="itemId" column="itemId"/>
+       <result property="book_isbn" column="book_isbn"/>
+       <result property="book_imgurl" column="book_imgurl"/>
+       <result property="book_name" column="book_name"/>
+       <result property="book_price" column="book_price"/>
+        <result property="count" column="count"/>
+        <result property="allPrice" column="allPrice"/>
+       </collection>
+       
+    </resultMap>
+    <insert id="save" parameterType="order">
+    <selectKey resultType="long" order="BEFORE" keyProperty="orderId">
+         select order_id_seq.nextval as orderId from dual
+     </selectKey>
+        insert into bsorder values(#{orderId},#{orderNum},#{createDate}
+        ,#{user.userId},#{address.addressId},#{orderStatus})
+    </insert>
+     <select id="findById" parameterType="long" resultMap="myOrder">
+       select * from bsorder o,bsuser u,bsaddress a,bsorderitem oi where o.userId=u.userId and 
+       o.addressId=a.addressId and o.orderId=oi.orderId and o.orderid=#{value}
+    </select>
+	 <select id="selectByPage" resultMap="myOrder">
+	select * from (select t.*,DENSE_RANK() OVER(order by orderid) rn from(select o.*,oi.itemId,reciver,tel,detailAddress,
+	book_isbn,book_imgurl,book_name,book_price,count,allPrice
+	from bsorder o,bsuser u,bsaddress a,bsorderitem oi 
+	 where o.userId=u.userId and o.addressId=a.addressId and o.orderId=oi.orderId and o.userId=#{user.userId}
+        ) t) where rn&lt;=#{pageNow}*#{pageSize} and rn &gt;(#{pageNow}-1)*#{pageSize}
+	</select>  
+
+     <select id="getRows" resultType="int" parameterType="user">
+        select count(*) from (select * from bsorder where userid=#{userId} ) 
+    </select>  
+    <delete id="delete" parameterType="order">
+    delete from bsorder where orderId=#{orderId}
+    </delete>
+    
+    <select id="getAllOrders" parameterType="user" resultMap="myOrder">
+       select * from bsorder o,bsuser u,bsaddress a,bsorderitem oi where o.userId=u.userId and 
+       o.addressId=a.addressId and o.orderId=oi.orderId and o.userid=#{userId}
+    </select>
+</mapper>

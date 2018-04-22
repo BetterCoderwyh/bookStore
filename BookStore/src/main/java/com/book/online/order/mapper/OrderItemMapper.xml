@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.book.online.order.mapper.OrderItemMapper">
+   <resultMap type="order" id="myOrder">
+       <id property="orderId" column="orderId"/>
+       <result property="orderNum" column="orderNum"/>
+       <result property="createDate" column="createDate"/>
+       <result property="orderStatus" column="orderStatus"/>
+       <association property="user" javaType="user">
+       <id property="userId" column="userId"/>
+       </association>
+       <association property="address" javaType="address">
+       <id property="addressId" column="addressId"/>
+       </association>
+       <collection property="items" ofType="orderitem">
+       <id property="itemId" column="itemId"/>
+       </collection>
+       
+    </resultMap>
+    <insert id="save" parameterType="orderitem">
+     insert into bsorderitem values(orderitem_id_seq.nextval,#{book_isbn},#{book_imgurl},#{book_name}
+     ,#{book_author},#{book_price},#{count},#{allPrice},#{order.orderId})
+    </insert>
+    
+    <delete id="deleteById" parameterType="long">
+        delete from bsorderitem where itemid=#{value}
+    </delete>
+    
+    <delete id="deleteByOrder" parameterType="order">
+        delete from bsorderitem where orderId=#{orderId}
+    </delete>
+</mapper>

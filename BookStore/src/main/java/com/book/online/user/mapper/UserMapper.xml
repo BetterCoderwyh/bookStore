@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.book.online.user.mapper.UserMapper">
+    <select id="selectByName" resultType="user" parameterType="string">
+        select * from bsuser where username=#{value}
+    </select>
+    <insert id="save" parameterType="user">
+        insert into bsuser values(user_id_seq.nextval,#{userName},#{passWord},#{email},#{phone},#{company},#{address})
+    </insert>
+    <update id="update" parameterType="user">
+        update bsuser set userName=#{userName},passWord=#{passWord},
+        email=#{email},phone=#{phone},company=#{company},address=#{address} where userId=#{userId}
+    </update>
+</mapper>

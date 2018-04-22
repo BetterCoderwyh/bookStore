@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN " "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<properties resource="db.properties">
+	</properties>
+	<settings>
+	<!-- 如果某个对象的属性为NULL允许被插入 -->
+	<setting name="jdbcTypeForNull" value="NULL"/>
+	<setting name="logImpl" value="LOG4J"/>
+	<!-- 开启关联对象的延迟加载开关 -->
+	<setting name="lazyLoadingEnabled" value="true"/>
+	<!-- 触发对象延迟加载的方法 -->
+	<setting name="lazyLoadTriggerMethods" value="clone"/>
+	<!-- 开启二级缓存 默认为true -->
+	 <setting name="cacheEnabled" value="true"/>
+	</settings>
+	
+	<!-- 给类添加别名,这样在映射文件中可以直写别名 -->
+	<typeAliases>
+		<!-- <typeAlias type="com.tz.mybatis.entity.Log" alias="log"/> -->
+		<!-- 按包扫描取别名,别名与类名同名,不区分大小写 -->
+		<package name="com.book.online.entity"/>
+	</typeAliases>
+	<!-- 连接目标数据库的环境 -->
+<!-- 	<typeHandlers>
+	
+	<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler"/>
+	</typeHandlers>  -->
+	<!-- mybatis-config.xml -->
+<!-- <typeHandlers>
+  <package name="org.mybatis.example"/>
+</typeHandlers> -->
+	
+	<environments default="ora">
+	<!-- 配置与oracle数据库的连接属性,取名为ora -->
+		<environment id="ora">
+			<!-- 指定事务类型 -->
+			<transactionManager type="JDBC" />
+			<!-- 配置连接池 -->
+			<!-- <dataSource type="UNPOOLED"> -->
+			<dataSource type="POOLED">
+				<!-- 具体的属性 -->
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${password}" />
+				<!-- 连接池的属性配置  -->
+				<property name="poolMaximumActiveConnections" value="5"/>
+				<property name="poolMaximumIdleConnections" value="1"/>
+				<property name="poolMaximumCheckoutTime" value="8000"/>
+				<property name="poolTimeToWait" value="10000"/>
+			</dataSource>
+		</environment>
+	</environments>
+<!-- 	这里的 DB_VENDOR 会通过 DatabaseMetaData#getDatabaseProductName() 返回的字符串进行设置 -->
+<!-- 	<databaseIdProvider type="DB_VENDOR">
+	<property name="Oracle" value="oracle"/>
+	<property name="MySql" value="mysql"/>
+	<property name="DB2" value="db2"/>
+	<property name="SQL Server" value="sqlsever"/>
+	</databaseIdProvider> -->
+<mappers>
+	<!-- 单个文件的映射 -->
+	<!-- <mapper resource ="com/tz/mybatis/mapper/DeptMapper.xml"/> -->
+	<package name="com.book.online"/>
+   </mappers>
+	
+</configuration>

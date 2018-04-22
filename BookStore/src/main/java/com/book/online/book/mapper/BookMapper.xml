@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.book.online.book.mapper.BookMapper">
+   <resultMap type="book" id="mybook">
+       <id property="bookId" column="bookId"/>
+       <result property="isbn" column="isbn"/>
+       <result property="bookName" column="bookName"/>
+       <result property="oldPrice" column="oldPrice"/>
+       <result property="newPrice" column="newPrice"/>
+       <result property="author" column="author"/>
+       <result property="author_loc" column="author_loc"/>
+       <result property="publish_date" column="publish_date"/>
+       <result property="publisher" column="publisher"/>
+       <result property="imageUrl" column="imageUrl"/>
+       <result property="info" column="info"/>
+       <association property="style_id" javaType="bookstyle">
+       <id property="bookStyleId" column="bookStyleId"/>
+       <result property="styleName" column="styleName"/>
+       </association>
+    </resultMap>
+	 <select id="findByCondition" resultMap="mybook">
+	select * from (select ROWNUM rn,tb.*,tbs.* from bsbook tb,bsbookstyle tbs where style_id=bookstyleid
+	   <if test="styleId!=null">
+	      and style_id=#{styleId}
+	   </if>
+	   <if test="bookName!=null">
+	       and bookName like '%'||#{bookName}||'%'
+	   </if>
+        ) where rn&lt;=#{pageNow}*#{pageSize} and rn &gt;(#{pageNow}-1)*#{pageSize}
+	</select>  
+
+     <select id="findById" parameterType="long" resultMap="mybook">
+       select * from bsbook,bsbookstyle where style_id=bookstyleid and bookid=#{value}
+    </select>
+    
+     <select id="getRows" resultType="int">
+        select count(*) from (select * from bsbook 
+       <where>
+       <if test="styleId!=null">
+         style_id=#{styleId}
+       </if>
+       <if test="bookName!=null">
+           and bookName like '%'||#{bookName}||'%'
+       </if>
+       </where>
+        ) 
+    </select> 
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.book.online.user.mapper.AddressMapper">
+    <resultMap type="address" id="myaddress">
+        <id property="AddressId" column="AddressId"/>
+        <result property="area" column="area"/>
+        <result property="detailAddress" column="detailAddress"/>
+        <result property="emailCode" column="emailCode"/>
+        <result property="reciver" column="reciver"/>
+        <result property="tel" column="tel"/>
+        <result property="isDefault" column="isDefault"/>
+        <association property="user" javaType="user">
+            <id property="userId" column="userId"/>
+            <result property="userName" column="userName"/>
+             <result property="passWord" column="passWord"/>
+              <result property="email" column="email"/>
+               <result property="phone" column="phone"/>
+                <result property="company" column="company"/>
+                 <result property="address" column="address"/>
+        </association>
+    </resultMap>
+     <insert id="save" parameterType="address">
+     <selectKey resultType="long" order="BEFORE" keyProperty="AddressId">
+         select address_id_seq.nextval as AddressId from dual
+     </selectKey>
+        insert into bsaddress values(#{AddressId},#{area},#{detailAddress},#{emailCode},#{reciver},#{tel},#{isDefault},#{user.userId})
+    </insert>  
+    <select id="findByUserId" parameterType="long" resultMap="myaddress">
+        select * from bsaddress a,bsuser u where a.userid=u.userid and a.userid=#{value}
+    </select>
+    <delete id="deleteById" parameterType="long">
+        delete from bsaddress  where addressid=#{value}
+    </delete>
+    <select id="findById" parameterType="long" resultMap="myaddress">
+         select * from bsaddress a,bsuser u where a.userid=u.userid and addressid=#{value}
+    </select>
+    <update id="update" parameterType="address">
+        update bsaddress set area=#{area},detailaddress=#{detailAddress},emailcode=#{emailCode}
+        ,reciver=#{reciver},tel=#{tel},isdefault=#{isDefault},userid=#{user.userId}
+        where addressid=#{addressId}
+    </update> 
+    <select id="findByAddConditon" resultMap="myaddress" parameterType="string">
+        select * from bsaddress a,bsuser u where a.userid=u.userid and isDefault=#{value}
+    </select>
+</mapper>

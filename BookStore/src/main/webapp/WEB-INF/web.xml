@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>BookShow</display-name>
+  <servlet>
+  	<servlet-name>BookListAction</servlet-name>
+  	<display-name>BookListAction</display-name>
+  	<description></description>
+  	<servlet-class>com.book.online.book.action.BookListAction</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LoginCIAction</servlet-name>
+  	<display-name>LoginCIAction</display-name>
+  	<description></description>
+  	<servlet-class>com.book.online.user.action.LoginCIAction</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>RegisterCIAction</servlet-name>
+  	<display-name>RegisterCIAction</display-name>
+  	<description></description>
+  	<servlet-class>com.book.online.user.action.RegisterCIAction</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>BookListAction</servlet-name>
+  	<url-pattern>/BookListAction</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LoginCIAction</servlet-name>
+  	<url-pattern>/LoginCIAction</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RegisterCIAction</servlet-name>
+  	<url-pattern>/RegisterCIAction</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
