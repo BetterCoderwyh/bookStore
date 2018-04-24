@@ -1,0 +1,14 @@
+.login_div{
+	
+	border: 1px solid #999999;
+	border-radius: 10px;
+	padding: 10px;
+	margin-top: 50px;
+
+}
+ .btn1 {  
+        border: 0px none;  //去边框  
+        font-size: 15px;  
+        background-color: #f8f8f8;
+        color: #777;
+    }  
